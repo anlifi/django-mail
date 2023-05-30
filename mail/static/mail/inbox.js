@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Use buttons to toggle between views
   document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
   document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
-  document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
+  document.querySelector('#archive').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
 
   // Send email when compose form is submitted
@@ -12,6 +12,19 @@ document.addEventListener('DOMContentLoaded', function() {
   // By default, load the inbox
   load_mailbox('inbox');
 });
+
+function archive_email(email_id, to_archive) {
+  
+  // Send PUT request to /emails/<email_id> to set email to archived (or to unarchived)
+  fetch(`/emails/${email_id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      archived: to_archive
+    })
+  })
+  .then(() => load_mailbox('inbox'))
+  .catch(error => console.log('Error:', error)); // Catch error
+}
 
 function compose_email() {
 
@@ -65,6 +78,16 @@ function load_email(mailbox, email_id) {
       single_email.append(element_row_div);
     });
 
+    // Add button for archive if inbox email or unarchive if archived email
+    if (['inbox', 'archive'].includes(mailbox)) {
+      const archive_btn = document.createElement('button');
+      archive_btn.classList.add('btn', 'btn-sm', 'btn-outline-primary');
+      archive_btn.innerHTML = email['archived'] ? 'Unarchive' : 'Archive';
+      archive_btn.addEventListener('click', () => archive_email(email_id, !email['archived']))
+
+      single_email.append(archive_btn);
+    }
+
     // Separate email header and body
     single_email.append(document.createElement('hr'));
 
@@ -114,6 +137,7 @@ function load_mailbox(mailbox) {
       error_div.classList.add('error');
       error_div.innerHTML = email['error'];
       document.querySelector('#emails-view').append(error_div);
+      return;
     }
 
     // Create email elements and show in view
