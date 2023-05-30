@@ -78,15 +78,33 @@ function load_email(mailbox, email_id) {
       single_email.append(element_row_div);
     });
 
+    // Add buttons for reply and archive/unarchive
+    const buttons_to_add = [
+      ['Reply', reply_email(email)]
+      [email['archived'] ? 'Unarchive' : 'Archive', archive_email(email_id, !email['archived'])]
+    ];
+    const btn_row_div = document.createElement('div');
+    btn_row_div.classList.add('row', 'section-email-btns');
+
+    // Add reply button
+    const reply_btn = document.createElement('button');
+    reply_btn.classList.add('btn', 'btn-sm', 'btn-outline-primary');
+    reply_btn.innerHTML = 'Reply';
+    reply_btn.addEventListener('click', () => reply_email(email))
+
+    btn_row_div.append(reply_btn);
+
     // Add button for archive if inbox email or unarchive if archived email
     if (['inbox', 'archive'].includes(mailbox)) {
       const archive_btn = document.createElement('button');
       archive_btn.classList.add('btn', 'btn-sm', 'btn-outline-primary');
       archive_btn.innerHTML = email['archived'] ? 'Unarchive' : 'Archive';
-      archive_btn.addEventListener('click', () => archive_email(email_id, !email['archived']))
+      archive_btn.addEventListener('click', () => archive_email(email_id, !email['archived']));
 
-      single_email.append(archive_btn);
+      btn_row_div.append(archive_btn);
     }
+
+    single_email.append(btn_row_div);
 
     // Separate email header and body
     single_email.append(document.createElement('hr'));
@@ -94,7 +112,7 @@ function load_email(mailbox, email_id) {
     // Show email body
     const body_div = document.createElement('div');
     body_div.classList.add('container', `section-email-body`);
-    body_div.innerHTML = `<p>${email.body}</p>`
+    body_div.innerHTML = `<p>${email.body.replace(/\n/gm, '<br>')}</p>`;
 
     single_email.append(body_div);
   })
@@ -164,6 +182,23 @@ function load_mailbox(mailbox) {
     });
   })
   .catch(error => console.log('Error:', error)); // Catch error
+}
+
+function reply_email(email) {
+
+  // Show compose view and hide other views
+  document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#compose-view').style.display = 'block';
+  document.querySelector('#single-email-view').style.display = 'none';
+  
+  // Clear out composition error field
+  document.querySelector('#compose-error').innerHTML = ''
+
+  // Pre-fill recipient, subject and body
+  document.querySelector('#compose-recipients').value = email.sender;
+  document.querySelector('#compose-subject').value = (email.subject.includes('Re: ')) ? email.subject : `Re: ${email.subject}`;
+  const pre_body_text = `\n\n\n-------------------------------------------------\nOn ${email.timestamp} ${email.sender} wrote:`
+  document.querySelector('#compose-body').value = `${pre_body_text}\n\n${email.body}`;
 }
 
 function send_email() {
