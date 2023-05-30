@@ -78,31 +78,26 @@ function load_email(mailbox, email_id) {
       single_email.append(element_row_div);
     });
 
-    // Add buttons for reply and archive/unarchive
-    const buttons_to_add = [
-      ['Reply', reply_email(email)]
-      [email['archived'] ? 'Unarchive' : 'Archive', archive_email(email_id, !email['archived'])]
+    // Add button for reply (all) and archive/unarchive (only if not sent mailbox)
+    let buttons_to_add = [
+      ['Reply', () => reply_email(email)],
+      [email['archived'] ? 'Unarchive' : 'Archive', () => archive_email(email_id, !email['archived'])]
     ];
     const btn_row_div = document.createElement('div');
     btn_row_div.classList.add('row', 'section-email-btns');
-
-    // Add reply button
-    const reply_btn = document.createElement('button');
-    reply_btn.classList.add('btn', 'btn-sm', 'btn-outline-primary');
-    reply_btn.innerHTML = 'Reply';
-    reply_btn.addEventListener('click', () => reply_email(email))
-
-    btn_row_div.append(reply_btn);
-
-    // Add button for archive if inbox email or unarchive if archived email
-    if (['inbox', 'archive'].includes(mailbox)) {
-      const archive_btn = document.createElement('button');
-      archive_btn.classList.add('btn', 'btn-sm', 'btn-outline-primary');
-      archive_btn.innerHTML = email['archived'] ? 'Unarchive' : 'Archive';
-      archive_btn.addEventListener('click', () => archive_email(email_id, !email['archived']));
-
-      btn_row_div.append(archive_btn);
+    if (mailbox === 'sent') {
+      buttons_to_add = buttons_to_add.slice(0, 1);
     }
+    buttons_to_add.forEach(button => {
+      const btn_value = button[0];
+      const btn_callback_func = button[1];
+      const btn = document.createElement('button');
+      btn.classList.add('btn', 'btn-sm', 'btn-outline-primary');
+      btn.innerHTML = btn_value;
+      btn.addEventListener('click', btn_callback_func)
+
+      btn_row_div.append(btn);
+    });
 
     single_email.append(btn_row_div);
 
