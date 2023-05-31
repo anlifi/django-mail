@@ -155,7 +155,7 @@ function load_mailbox(mailbox) {
     }
 
     // Create email elements and show in view
-    const email_sections = [['sender', 4], ['subject', 4], ['timestamp', 4]];
+    const email_sections = [['sender', ['col-4', 'col-lg-3']], ['subject', ['col-5', 'col-lg-7']], ['timestamp', ['col-3', 'col-lg-2']]];
     const sections_header_email = {'sender': 'Sender', 'subject': 'Subject', 'timestamp': 'Date and Time', 'read': false};
     emails = [sections_header_email, ...emails];
     emails.forEach(email => {
@@ -170,7 +170,8 @@ function load_mailbox(mailbox) {
         const section_name = section[0];
         const section_col_size = section[1];
         const div_section = document.createElement('div');
-        div_section.classList.add(`col-${section_col_size}`, `section-${section_name}`);
+        section_col_size.forEach(item => div_section.classList.add(item));
+        div_section.classList.add(`section-${section_name}`);
         div_section.innerHTML = `<p>${email[section_name]}</p>`;
 
         div_row_element.append(div_section);

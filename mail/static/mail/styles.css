@@ -27,7 +27,7 @@ html h1, html h2, html h3, body h1, body h2, body h3 {
   cursor: pointer;
 }
 #emails-view .emails-row-item .section-timestamp:not(#emails-row-title > .section-timestamp) {
-  color: grey;
+  color: #666666;
 }
 #emails-view .read {
   background-color: #cccccc;
