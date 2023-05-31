@@ -45,4 +45,26 @@ textarea {
   cursor: default;
 }
 
+#single-email-view .btn {
+  margin-right: 0.25rem;
+}
+#single-email-view .container {
+  margin: 2rem 0;
+  padding: 0;
+}
+#single-email-view .row {
+  margin: 0;
+  padding: 0;
+}
+#single-email-view .row p {
+  margin: auto 0;
+  padding: 0.2rem 0;
+}
+#single-email-view .row .section-email-title {
+  font-weight: bold;
+}
+#single-email-view .section-email-btns {
+  margin: 0.5rem 0;
+}
+
 /*# sourceMappingURL=styles.css.map */

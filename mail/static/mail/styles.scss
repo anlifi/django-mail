@@ -54,3 +54,34 @@ textarea {
         cursor: default;
     }
 }
+
+#single-email-view {
+
+    .btn {
+        margin-right: .25rem;
+    }
+
+    .container {
+        margin: 2rem 0;
+        padding: 0;
+    }
+
+    .row {
+        margin: 0;
+        padding: 0;
+
+        p {
+            margin: auto 0;
+            padding: .2rem 0;
+        }
+
+        .section-email-title {
+            font-weight: bold;
+        }
+
+    }
+    
+    .section-email-btns {
+        margin: .5rem 0;
+    }
+}
