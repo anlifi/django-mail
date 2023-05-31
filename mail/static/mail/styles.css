@@ -9,11 +9,11 @@ html h1, html h2, html h3, body h1, body h2, body h3 {
   margin: 1rem 0;
 }
 
-textarea {
+#compose-view textarea {
   min-height: 400px;
+  margin-bottom: 1rem;
 }
-
-#compose-error {
+#compose-view #compose-error {
   color: red;
 }
 

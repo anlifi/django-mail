@@ -10,13 +10,18 @@ html, body {
     }
 }
 
-textarea {
-    min-height: 400px;
+#compose-view {
+
+    textarea {
+        min-height: 400px;
+        margin-bottom: 1rem;
+    }
+    
+    #compose-error {
+        color: red;
+    }
 }
 
-#compose-error {
-    color: red;
-}
 
 #emails-view {
     
