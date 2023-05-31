@@ -5,27 +5,44 @@ html, body {
   height: 100%;
   min-height: 100vh;
 }
+html h1, html h2, html h3, body h1, body h2, body h3 {
+  margin: 1rem 0;
+}
 
 textarea {
   min-height: 400px;
 }
 
-.emails-row-item {
+#compose-error {
+  color: red;
+}
+
+#emails-view p {
+  margin: auto;
+  padding: 0.5rem 0;
+}
+#emails-view .emails-row-item {
   border-collapse: collapse;
   font-size: 0.9rem;
   cursor: pointer;
 }
-
-.read {
-  background-color: #c5c5c5;
+#emails-view .emails-row-item .section-timestamp:not(#emails-row-title > .section-timestamp) {
+  color: grey;
 }
-
-.unread {
+#emails-view .read {
+  background-color: #cccccc;
+}
+#emails-view .unread {
   background-color: white;
 }
-
-#compose-error {
-  color: red;
+#emails-view .section-sender {
+  font-weight: bold;
+}
+#emails-view #emails-row-title {
+  font-size: 1rem;
+  font-weight: bold;
+  border-width: 1.5px !important;
+  cursor: default;
 }
 
 /*# sourceMappingURL=styles.css.map */

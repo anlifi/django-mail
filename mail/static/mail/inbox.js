@@ -85,9 +85,10 @@ function load_email(mailbox, email_id) {
     ];
     const btn_row_div = document.createElement('div');
     btn_row_div.classList.add('row', 'section-email-btns');
-    if (mailbox === 'sent') {
-      buttons_to_add = buttons_to_add.slice(0, 1);
-    }
+
+    // Do not add archive/unarchive button to sent emails
+    if (mailbox === 'sent') {buttons_to_add = buttons_to_add.slice(0, 1);}
+
     buttons_to_add.forEach(button => {
       const btn_value = button[0];
       const btn_callback_func = button[1];
@@ -154,10 +155,15 @@ function load_mailbox(mailbox) {
     }
 
     // Create email elements and show in view
-    const email_sections = [['sender', 4], ['subject', 4], ['timestamp', 4]]
+    const email_sections = [['sender', 4], ['subject', 4], ['timestamp', 4]];
+    const sections_header_email = {'sender': 'Sender', 'subject': 'Subject', 'timestamp': 'Date and Time', 'read': false};
+    emails = [sections_header_email, ...emails];
     emails.forEach(email => {
       const div_row_element = document.createElement('div');
       div_row_element.classList.add('emails-row-item', 'row', 'border', 'border-dark', email['read'] ? 'read' : 'unread');
+
+      // Set id for sections header
+      if (email === sections_header_email) {div_row_element.id = 'emails-row-title';}
 
       // Create email section elements
       email_sections.forEach(section => {
