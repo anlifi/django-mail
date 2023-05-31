@@ -25,6 +25,9 @@ form#login, form#register {
   margin: auto;
   padding: 0.5rem 0;
 }
+#emails-view .row {
+  margin: 0;
+}
 #emails-view .emails-row-item {
   border-collapse: collapse;
   font-size: 0.9rem;
